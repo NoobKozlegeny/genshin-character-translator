@@ -65,23 +65,26 @@ async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<&st
             let emoji_utf: String = get_correct_value(&item.to_string()[..], emoji_utf_primary.clone());
             
             let emoji = ReactionType::try_from(emoji_utf).unwrap_or_else(|_error: ReactionConversionError| {
-                panic!("ReactionConversionError: Emoji doesn't exist for letter {}", item);
+                return ReactionType::try_from("⚠️").unwrap();
             });
-            
-            
-            if let Err(why) = msg.react(&ctx, emoji).await {
-                println!("{why}");
-            }
+
+            if !emoji.unicode_eq("⚠️") {
+                if let Err(why) = msg.react(&ctx, emoji).await {
+                    println!("{why}");
+                }
+            }            
         }
         else {
             let emoji_utf: String = get_correct_value(&item.to_string()[..], emoji_utf_secondary.clone());
-            
+
             let emoji = ReactionType::try_from(emoji_utf).unwrap_or_else(|_error: ReactionConversionError| {
-                panic!("ReactionConversionError: Emoji doesn't exist for letter {}", item);
+                return ReactionType::try_from("⚠️").unwrap();
             });
 
-            if let Err(why) = msg.react(&ctx, emoji).await {
-                println!("{why}");
+            if !emoji.unicode_eq("⚠️") {
+                if let Err(why) = msg.react(&ctx, emoji).await {
+                    println!("{why}");
+                }
             }
         }
     }
