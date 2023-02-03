@@ -6,8 +6,6 @@ use serenity::model::prelude::{Ready};
 use std::collections::*;
 use std::str;
 
-// #[path = "helpers.rs"] mod helpers;
-
 pub struct Handler;
 
 #[async_trait]
@@ -59,37 +57,35 @@ async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<&st
 
     // Iterating through all the character letters
     for (i, item) in en_name_letters.iter().enumerate() {
+        let emoji_utf: String;
+
         // If we wish to use an emoji which is already present on the message, then we
         // search for an alternative in emoji_utf_secondary
         if (i == 0) || !en_name_letters[0..i].contains(&item) {
-            let emoji_utf: String = get_correct_value(&item.to_string()[..], emoji_utf_primary.clone());
-            
-            let emoji = ReactionType::try_from(emoji_utf).unwrap_or_else(|_error: ReactionConversionError| {
-                return ReactionType::try_from("⚠️").unwrap();
-            });
-
-            if !emoji.unicode_eq("⚠️") {
-                if let Err(why) = msg.react(&ctx, emoji).await {
-                    println!("{why}");
-                }
-            }            
+            emoji_utf = get_correct_value(&item.to_string()[..], emoji_utf_primary.clone());            
         }
         else {
-            let emoji_utf: String = get_correct_value(&item.to_string()[..], emoji_utf_secondary.clone());
+            emoji_utf = get_correct_value(&item.to_string()[..], emoji_utf_secondary.clone());
+        }
 
-            let emoji = ReactionType::try_from(emoji_utf).unwrap_or_else(|_error: ReactionConversionError| {
-                return ReactionType::try_from("⚠️").unwrap();
-            });
+        let emoji: ReactionType = ReactionType::try_from(emoji_utf).unwrap_or_else(|_error: ReactionConversionError| {
+            return ReactionType::try_from("⚠️").unwrap();
+        });
 
-            if !emoji.unicode_eq("⚠️") {
-                if let Err(why) = msg.react(&ctx, emoji).await {
-                    println!("{why}");
-                }
+        if !emoji.unicode_eq("⚠️") {
+            if let Err(why) = msg.react(&ctx, emoji).await {
+                println!("{why}");
             }
         }
     }
 }
 
+/// Returns the corresponding value to the input key if present
+/// # Parameters
+///     input: A &str variable. (This is the key)
+///     hash_map: A <&str, &str> hashmap duuuh
+/// 
+/// TODO: Make this generic pls
 fn get_correct_value(input: &str, hash_map: HashMap<&str, &str>) -> String {
     let mut result: String = String::from("");
 
