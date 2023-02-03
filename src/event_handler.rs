@@ -6,6 +6,8 @@ use serenity::model::prelude::{Ready};
 use std::collections::*;
 use std::str;
 
+// #[path = "helpers.rs"] mod helpers;
+
 pub struct Handler;
 
 #[async_trait]
@@ -15,8 +17,8 @@ impl EventHandler for Handler {
         // authors is the users we will interact with
         let authors: Vec<&str> = Vec::from([ "NoobKözlegény" ]); 
         let genshin_names: HashMap<&str, &str> = HashMap::from([
-            ("Joli", "Yoi"),
-            ("Kolli", "Colei")
+            ("Albedo", "Albert"), ("Alhaitham", "Ali"), ("Aloy", ""),
+            ("Amber", "Bori"), ("Ayaka", "Abacc"), ("Ayato", "Ajtony")
         ]);
 
         if authors.contains(&&msg.author.name[..]) 
@@ -37,15 +39,10 @@ impl EventHandler for Handler {
 ///     genshin_names: A HashMap<&str, &str> with genshin names (<name to react, word to spell>) 
 async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<&str, &str>) {
     // Getting the correct english equivalent name
-    let mut en_name: String = String::from("");
+    let en_name: String = get_correct_value(&&msg.content[..], genshin_names.clone());
 
-    match genshin_names.get(&&msg.content[..]) {
-        Some(&value) => en_name.push_str(value),
-        _ => println!("Couldn't find key in genshin_names")
-    };
-
-    // Reacting with the correct emojis
-    let emoji_letters: HashMap<&str, &str> = HashMap::from([
+    // Defining the letters with their corresponding emojis
+    let emoji_utf_primary: HashMap<&str, &str> = HashMap::from([
         ("A", "🇦"), ("B", "🇧"), ("C", "🇨"), ("D", "🇩"),
         ("E", "🇪"), ("F", "🇫"), ("G", "🇬"), ("H", "🇭"),
         ("I", "🇮"), ("J", "🇯"), ("K", "🇰"), ("L", "🇱"),
@@ -54,21 +51,49 @@ async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<&st
         ("U", "🇺"), ("V", "🇻"), ("W", "🇼"), ("X", "🇽"),
         ("Y", "🇾"), ("Z", "🇿")
     ]);
+    let emoji_utf_secondary: HashMap<&str, &str> = HashMap::from([
+        ("A", "🅰️"), ("B", "🅱️"), ("M", "Ⓜ️"), ("O", "🅾️")
+    ]);
 
-    let en_name_letters: Vec<char> = en_name.chars().collect();
+    let en_name_letters: Vec<char> = en_name.to_uppercase().chars().collect();
 
-    for item in en_name_letters {
-        let mut letter = String::from("");
+    // Iterating through all the character letters
+    for (i, item) in en_name_letters.iter().enumerate() {
+        // If we wish to use an emoji which is already present on the message, then we
+        // search for an alternative in emoji_utf_secondary
+        if (i == 0) || !en_name_letters[0..i].contains(&item) {
+            let emoji_utf: String = get_correct_value(&item.to_string()[..], emoji_utf_primary.clone());
+            
+            let emoji = ReactionType::try_from(emoji_utf).unwrap_or_else(|_error: ReactionConversionError| {
+                panic!("ReactionConversionError: Emoji doesn't exist for letter {}", item);
+            });
+            
+            
+            if let Err(why) = msg.react(&ctx, emoji).await {
+                println!("{why}");
+            }
+        }
+        else {
+            let emoji_utf: String = get_correct_value(&item.to_string()[..], emoji_utf_secondary.clone());
+            
+            let emoji = ReactionType::try_from(emoji_utf).unwrap_or_else(|_error: ReactionConversionError| {
+                panic!("ReactionConversionError: Emoji doesn't exist for letter {}", item);
+            });
 
-        match emoji_letters.get(&item.to_string().to_uppercase()[..]) {
-            Some(&value) => letter.push_str(value),
-            _ => println!("Couldn't find key in emoji_letters")
-        };
-
-        let emoji = ReactionType::try_from(letter).unwrap();
-
-        if let Err(why) = msg.react(&ctx, emoji).await {
-            println!("{why}");
+            if let Err(why) = msg.react(&ctx, emoji).await {
+                println!("{why}");
+            }
         }
     }
+}
+
+fn get_correct_value(input: &str, hash_map: HashMap<&str, &str>) -> String {
+    let mut result: String = String::from("");
+
+    match hash_map.get(&input) {
+        Some(&value) => result = value.to_string(),
+        _ => println!("Couldn't find key in emoji_letters_XYZ")
+    };
+
+    return result;
 }
