@@ -16,7 +16,7 @@ impl VecExt for Vec<String> {
         for name in self {
             let mut name_modified: String = String::new();
 
-            for (j, char) in name.chars().enumerate() {
+            for char in name.chars() {
                 if let Some(x) = accents.get(&char.to_string()[..]) {
                     name_modified += x
                 } else {

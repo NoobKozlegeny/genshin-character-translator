@@ -3,10 +3,11 @@ use serenity::async_trait;
 use serenity::prelude::*;
 use serenity::model::channel::*;
 use serenity::model::prelude::{Ready};
-use std::collections::*;
+use std::collections::HashMap;
+use std::vec::Vec;
 use std::fs::File;
 use std::hash::Hash;
-use std::io::{BufReader, Result};
+use std::io::{BufReader};
 use std::io::prelude::*;
 use std::path::Path;
 use std::str;
@@ -113,18 +114,7 @@ async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<Str
 /// # Parameters
 ///     input: A T variable. (This is the key)
 ///     hash_map: A <T, T> hashmap duuuh
-/// 
-/// TODO: Make a better actual generic pls
 fn get_correct_value<T: Hash + Eq + Clone>(input: T, hash_map: HashMap<T, T>) -> Option<T> {
-    // let mut result: Option<T> = None;
-
-    // match hash_map.get(&input) {
-    //     Some(&value) => result = value.into(),
-    //     _ => println!("Couldn't find key in emoji_letters_XYZ")
-    // };
-
-    // let value = hash_map.get(&input).unwrap().clone();
-
     match hash_map.get(&input) {
         Some(x) => return Some(x.clone()),
         None => println!("Key doesn't exist in hash_map")
