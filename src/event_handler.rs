@@ -77,7 +77,9 @@ async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<Str
         ("Y", "🇾"), ("Z", "🇿")
     ]);
     let emoji_utf_secondary: HashMap<&str, &str> = HashMap::from([
-        ("A", "🅰️"), ("B", "🅱️"), ("M", "Ⓜ️"), ("O", "🅾️"), ("I", "ℹ️")
+        ("A", "🅰️"), ("B", "🅱️"), ("C", "☪️"), ("I", "ℹ️"),
+        ("M", "Ⓜ️"), ("O", "🅾️"), ("P", "🅿️"), ("U", "⛎"),
+        ("T", "✝️"), ("X", "❌"), ("V", "🔽") 
     ]);
 
     // Turns the name into characters and removes the accents to help display later
