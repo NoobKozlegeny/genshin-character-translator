@@ -64,7 +64,7 @@ fn read_names(path: &Path) -> HashMap<String, String> {
 ///     genshin_names: A HashMap<&str, &str> with genshin names (<name to react, word to spell>) 
 async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<String, String>) {
     // Getting the correct english equivalent name
-    let msg_content = msg.content.clone();
+    let msg_content = msg.content.to_uppercase().clone();
     let en_name: String = get_correct_value(msg_content, genshin_names.clone()).unwrap();
 
     // Defining the letters with their corresponding emojis
