@@ -46,12 +46,10 @@ fn read_names(path: &Path) -> HashMap<String, String> {
 
     for line in reader.lines() {
         let line_ok = line.unwrap().to_string().to_uppercase(); // Zhongli - Zoli
-        let mut names: Vec<&str> = line_ok.split("-").collect();
-
-        let names: Vec<String> = names.trim().replace_accents();
+        let names: Vec<&str> = line_ok.split("-").collect();
 
         // Bc we 'translate' the hungarian to the english one, hence the idx switchup
-        result.insert(names[1].clone(), names[0].clone()); 
+        result.insert(names[1].trim().to_string().clone(), names[0].trim().to_string().clone()); 
     }
 
     return result;
@@ -82,6 +80,7 @@ async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<Str
     ]);
 
     let en_name_letters: Vec<char> = en_name.chars().collect();
+    en_name_letters.replace_accents();
 
     // Iterating through all the character letters
     for (i, item) in en_name_letters.iter().enumerate() {
