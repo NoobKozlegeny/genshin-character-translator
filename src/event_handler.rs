@@ -3,16 +3,17 @@ use serenity::async_trait;
 use serenity::prelude::*;
 use serenity::model::channel::*;
 use serenity::model::prelude::{Ready};
-use std::borrow::Borrow;
 use std::collections::*;
-use std::fmt::Display;
 use std::fs::File;
 use std::hash::Hash;
-use std::io::Error;
 use std::io::{BufReader, Result};
 use std::io::prelude::*;
 use std::path::Path;
 use std::str;
+
+use self::extensions::VecExt;
+
+#[path = "extensions.rs"] mod extensions;
 
 pub struct Handler;
 
@@ -25,7 +26,7 @@ impl EventHandler for Handler {
         let genshin_names: HashMap<String, String> = read_names(Path::new("names.txt"));
 
         if authors.contains(&&msg.author.name[..]) 
-        && genshin_names.contains_key(&msg.content) {
+        && genshin_names.contains_key(&msg.content.to_uppercase()) {
             react_to_message(ctx, msg, genshin_names).await;            
         }
     }
@@ -35,17 +36,22 @@ impl EventHandler for Handler {
     }
 }
 
+/// Reads the genshin names into a HashMap<String, String>
+/// # Parameters
+///     path: a &Path struct pointing to the file location
 fn read_names(path: &Path) -> HashMap<String, String> {
     let mut result: HashMap<String, String> = HashMap::new();
     let file = File::open(path).expect("File not found!");
     let reader = BufReader::new(file);
 
     for line in reader.lines() {
-        let line_ok = line.unwrap().to_string(); // Zhongli - Zoli
-        let names: Vec<&str> = line_ok.split("-").collect();
-        
+        let line_ok = line.unwrap().to_string().to_uppercase(); // Zhongli - Zoli
+        let mut names: Vec<&str> = line_ok.split("-").collect();
+
+        let names: Vec<String> = names.trim().replace_accents();
+
         // Bc we 'translate' the hungarian to the english one, hence the idx switchup
-        result.insert(names[1].trim().to_owned(), names[0].trim().to_owned()); 
+        result.insert(names[1].clone(), names[0].clone()); 
     }
 
     return result;
@@ -75,7 +81,7 @@ async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<Str
         ("A", "🅰️"), ("B", "🅱️"), ("M", "Ⓜ️"), ("O", "🅾️"), ("I", "ℹ️")
     ]);
 
-    let en_name_letters: Vec<char> = en_name.to_uppercase().chars().collect();
+    let en_name_letters: Vec<char> = en_name.chars().collect();
 
     // Iterating through all the character letters
     for (i, item) in en_name_letters.iter().enumerate() {
