@@ -22,7 +22,7 @@ pub struct Handler;
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
 
-        // authors is the users we will interact with
+        // authors are the users we will interact with
         let authors: Vec<&str> = Vec::from([ "NoobKözlegény" ]);
         let genshin_names: HashMap<String, String> = read_names(Path::new("names.txt"));
 
@@ -80,6 +80,7 @@ async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<Str
         ("A", "🅰️"), ("B", "🅱️"), ("M", "Ⓜ️"), ("O", "🅾️"), ("I", "ℹ️")
     ]);
 
+    // Turns the name into characters and removes the accents to help display later
     let en_name_letters: Vec<char> = en_name.chars().collect();
     en_name_letters.replace_accents();
 
@@ -98,6 +99,7 @@ async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<Str
             }).to_owned();
         }
 
+        // This creates a "⚠️" emoji to display it couldn't find an emoji for the associated letter
         let emoji: ReactionType = ReactionType::try_from(emoji_utf).unwrap_or_else(|_error: ReactionConversionError| {
             return ReactionType::try_from("⚠️").unwrap();
         });

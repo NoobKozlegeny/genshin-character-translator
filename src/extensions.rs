@@ -1,6 +1,10 @@
 use std::{vec::Vec, collections::HashMap};
 
 pub trait VecExt {
+    /// Replaces accents to english 'equivalents'
+    /// # Example
+    ///     Á -> A
+    ///     Ó -> O
     fn replace_accents(&self) -> Self;
 }
 
