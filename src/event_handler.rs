@@ -24,7 +24,9 @@ impl EventHandler for Handler {
 
         // authors are the users we will interact with
         let authors: Vec<&str> = Vec::from([ "NoobKözlegény" ]);
-        let genshin_names: HashMap<String, String> = read_names(Path::new("names.txt"));
+        let genshin_names: HashMap<String, String> = HashMap::from([
+            (String::from("JOLI"), String::from("YOI"))
+        ]);
 
         if authors.contains(&&msg.author.name[..]) 
         && genshin_names.contains_key(&msg.content.to_uppercase()) {
