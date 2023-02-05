@@ -61,13 +61,32 @@ impl EventHandler for Handler {
 
         if authors.contains(&&msg.author.name[..]) 
         && genshin_names.contains_key(&msg.content.to_uppercase()) {
-            react_to_message(ctx, msg, genshin_names).await;            
+            let hu_name: String = select_name(msg.content.clone(), genshin_names.clone());
+            println!("NAME: {}", hu_name);
+            react_to_message(ctx, msg, genshin_names, hu_name).await;            
         }
     }
 
     async fn ready(&self, _: Context, ready: Ready) {
         println!("{} is connected!", ready.user.name);
     }
+}
+
+/// Selects the Hungarian genshin name from the string
+/// # Parameters
+///     input: the string to search in
+///     genshin_names: HashMap with the corresponding names
+fn select_name(input: String, genshin_names: HashMap<String, String>) -> String {
+    let mut result = String::from("");
+
+    for item in input.to_uppercase().split(" ") {
+        if genshin_names.contains_key(&item.to_string()) {
+            result += item;
+            return result;
+        }
+    }
+
+    return result;
 }
 
 /// Reads the genshin names into a HashMap<String, String>
@@ -94,10 +113,9 @@ fn read_names(path: &Path) -> HashMap<String, String> {
 ///     ctx: Context file of the message
 ///     msg: Message object
 ///     genshin_names: A HashMap<&str, &str> with genshin names (<name to react, word to spell>) 
-async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<String, String>) {
+async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<String, String>, hu_name: String) {
     // Getting the correct english equivalent name
-    let msg_content = msg.content.to_uppercase().clone();
-    let en_name: String = get_correct_value(msg_content, genshin_names.clone()).unwrap();
+    let en_name: String = get_correct_value(hu_name, genshin_names.clone()).unwrap();
 
     // Defining the letters with their corresponding emojis
     let emoji_utf_primary: HashMap<&str, &str> = HashMap::from([
