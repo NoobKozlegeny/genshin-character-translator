@@ -37,7 +37,7 @@ impl EventHandler for Handler {
             (String::from("LAURA"), String::from("EULA")), (String::from("FRUZSI"), String::from("FRUZSINA")),
             (String::from("FLÓRA"), String::from("FISCHL")), (String::from("GYÖNGYI"), String::from("GANYU")),
             (String::from("GERGŐ"), String::from("GOROU")), (String::from("HETÉNY"), String::from("HEIZHOU")),
-            (String::from("TEA"), String::from("HU TAO")), (String::from("JANKA"), String::from("JEAN")),
+            (String::from("TEA"), String::from("HUTAO")), (String::from("JANKA"), String::from("JEAN")),
             (String::from("KÁZMÉR"), String::from("KAZUHA")), (String::from("KÁROLY"), String::from("KAEYA")),
             (String::from("KORINA"), String::from("KOKOMI")), (String::from("SÜTI"), String::from("KUKI")),
             (String::from("KEKA"), String::from("KEQING")), (String::from("KINGA"), String::from("KEQING")),
@@ -53,16 +53,16 @@ impl EventHandler for Handler {
             (String::from("UTAZÓ"), String::from("TRAVELER")), (String::from("BARNI"), String::from("VENTI")),
             (String::from("SAMU"), String::from("XIAO")), (String::from("SZINDBÁD"), String::from("XINGQIU")),
             (String::from("SZINTIA"), String::from("XINYAN")), (String::from("CSINGILING"), String::from("XIANGLINQ")),
-            (String::from("JANA"), String::from("YANFEI")), (String::from("MOLLI"), String::from("YAE MIKO")),
+            (String::from("JANA"), String::from("YANFEI")), (String::from("MOLLI"), String::from("YAEMIKO")),
             (String::from("JOLÁN"), String::from("YELAN")), (String::from("JOLI"), String::from("YOIMIJA")),
             (String::from("JULI"), String::from("YUN JIN")), (String::from("SALAMON"), String::from("SCARA")),
             (String::from("ZOLI"), String::from("ZHONGLI"))
         ]);
 
+        let hu_name: String = select_name(msg.content.clone(), genshin_names.clone());
+
         if authors.contains(&&msg.author.name[..]) 
-        && genshin_names.contains_key(&msg.content.to_uppercase()) {
-            let hu_name: String = select_name(msg.content.clone(), genshin_names.clone());
-            println!("NAME: {}", hu_name);
+        && genshin_names.contains_key(&hu_name) {
             react_to_message(ctx, msg, genshin_names, hu_name).await;            
         }
     }
