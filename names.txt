@@ -29,7 +29,7 @@ Kazuha - Kázmér
 Kaeya - Károly
 Kokomi - Korina
 Kuki - Süti
-Keqing - Keka/Kinga
+Keqing - Kinga
 Klee - Klári
 Layla - Lejla
 Lisa - Liza
@@ -39,7 +39,7 @@ Ningguang - Niki
 Nilou - Níla
 Noelle - Noella
 Qiqi - Gizi
-Shogun/Ei - Évi
+Raiden - Évi
 Razor - Radiátor
 Rosaria - Rozi
 Kokomi - Korinna
@@ -61,5 +61,5 @@ Yae Miko - Molli
 Yelan - Jolán
 Yoimiya - Joli
 Yun Jin - Juli
-Wanderer/Scara - Salamon
+Scara - Salamon
 Zhongli - Zoli

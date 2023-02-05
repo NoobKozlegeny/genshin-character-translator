@@ -14,7 +14,10 @@ async fn serenity(#[shuttle_secrets::Secrets] secret_store: SecretStore)
     };
 
     // Set gateway intents, which decides what events the bot will be notified about
-    let intents = GatewayIntents::GUILD_MESSAGES | GatewayIntents::MESSAGE_CONTENT;
+    let intents = GatewayIntents::non_privileged()
+        | GatewayIntents::MESSAGE_CONTENT 
+        | GatewayIntents::GUILD_MESSAGES
+        | GatewayIntents::GUILD_MESSAGE_REACTIONS;
 
     let client = Client::builder(&token, intents)
         .event_handler(event_handler::Handler)
