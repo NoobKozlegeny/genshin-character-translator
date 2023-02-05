@@ -25,7 +25,38 @@ impl EventHandler for Handler {
         // authors are the users we will interact with
         let authors: Vec<&str> = Vec::from([ "NoobKözlegény" ]);
         let genshin_names: HashMap<String, String> = HashMap::from([
-            (String::from("JOLI"), String::from("YOI"))
+            (String::from("ALBERT"), String::from("ALBEDO")), (String::from("ALI"), String::from("ALHAITHAM")),
+            (String::from("BORI"), String::from("AMBER")), (String::from("ÁNGYIKA"), String::from("AYAKA")),
+            (String::from("AJTONY"), String::from("AYATO")), (String::from("ISTVÁN"), String::from("ITTO")),
+            (String::from("BARBI"), String::from("BARBARA")), (String::from("BERNADETT"), String::from("BEIDOU")),
+            (String::from("BÉNI"), String::from("BENNETT")), (String::from("KASSZANDRA"), String::from("CANDACE")),
+            (String::from("CSONGI"), String::from("CHONGYUN")), (String::from("CSANÁD"), String::from("CHILDE")),
+            (String::from("KOLLI"), String::from("COLLEI")), (String::from("SANYÓ"), String::from("CYNO")),
+            (String::from("DÉNES"), String::from("DAINSLEIF")), (String::from("DANI"), String::from("DILUC")),
+            (String::from("DIA"), String::from("DIONA")), (String::from("DÓRI"), String::from("DORI")),
+            (String::from("LAURA"), String::from("EULA")), (String::from("FRUZSI"), String::from("FRUZSINA")),
+            (String::from("FLÓRA"), String::from("FISCHL")), (String::from("GYÖNGYI"), String::from("GANYU")),
+            (String::from("GERGŐ"), String::from("GOROU")), (String::from("HETÉNY"), String::from("HEIZHOU")),
+            (String::from("TEA"), String::from("HU TAO")), (String::from("JANKA"), String::from("JEAN")),
+            (String::from("KÁZMÉR"), String::from("KAZUHA")), (String::from("KÁROLY"), String::from("KAEYA")),
+            (String::from("KORINA"), String::from("KOKOMI")), (String::from("SÜTI"), String::from("KUKI")),
+            (String::from("KEKA"), String::from("KEQING")), (String::from("KINGA"), String::from("KEQING")),
+            (String::from("KLÁRI"), String::from("KLEE")), (String::from("LEJLA"), String::from("LAYLA")),
+            (String::from("LIZA"), String::from("LISA")), (String::from("MÓNI"), String::from("MONA")),
+            (String::from("NATI"), String::from("NAHIDA")), (String::from("NIKI"), String::from("NINGUANQ")),
+            (String::from("NÍLA"), String::from("NILOU")), (String::from("NOELLA"), String::from("NOELLE")),
+            (String::from("GIZI"), String::from("QIGI")), (String::from("ÉVI"), String::from("RAIDEN")),
+            (String::from("RADIÁTOR"), String::from("RAZOR")), (String::from("ROZI"), String::from("ROSARIA")),
+            (String::from("SÁRA"), String::from("SARA")), (String::from("SZANDI"), String::from("SAYU")),
+            (String::from("SZENDE"), String::from("SHENHE")), (String::from("CUKOR"), String::from("SUCROSE")),
+            (String::from("TOMI"), String::from("THOMA")), (String::from("TIHAMÉR"), String::from("TIGHNARI")),
+            (String::from("UTAZÓ"), String::from("TRAVELER")), (String::from("BARNI"), String::from("VENTI")),
+            (String::from("SAMU"), String::from("XIAO")), (String::from("SZINDBÁD"), String::from("XINGQIU")),
+            (String::from("SZINTIA"), String::from("XINYAN")), (String::from("CSINGILING"), String::from("XIANGLINQ")),
+            (String::from("JANA"), String::from("YANFEI")), (String::from("MOLLI"), String::from("YAE MIKO")),
+            (String::from("JOLÁN"), String::from("YELAN")), (String::from("JOLI"), String::from("YOIMIJA")),
+            (String::from("JULI"), String::from("YUN JIN")), (String::from("SALAMON"), String::from("SCARA")),
+            (String::from("ZOLI"), String::from("ZHONGLI"))
         ]);
 
         if authors.contains(&&msg.author.name[..]) 
