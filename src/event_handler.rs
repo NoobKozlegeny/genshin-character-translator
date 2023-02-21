@@ -25,7 +25,7 @@ impl EventHandler for Handler {
         // authors are the users we will interact with
         let authors: Vec<&str> = Vec::from([ "NoobKözlegény", "Husania" ]);
         let genshin_names: HashMap<String, String> = HashMap::from([
-            (String::from("ALBERT"), String::from("ALBEDO")), (String::from("ALI"), String::from("ALHAITHAM")),
+            (String::from("ALBERT"), String::from("ALBEDO")), (String::from("ALIHAN"), String::from("ALHAITHAM")),
             (String::from("BORI"), String::from("AMBER")), (String::from("ÁNGYIKA"), String::from("AYAKA")),
             (String::from("AJTONY"), String::from("AYATO")), (String::from("ISTVÁN"), String::from("ITTO")),
             (String::from("BARBI"), String::from("BARBARA")), (String::from("BERNADETT"), String::from("BEIDOU")),
@@ -79,7 +79,7 @@ impl EventHandler for Handler {
 fn select_name(input: String, genshin_names: HashMap<String, String>) -> String {
     for item in input.to_uppercase().split(" ") {
         for name_kv in genshin_names.iter() {
-            if item.to_string().contains(name_kv.0) {
+            if item.to_string().starts_with(name_kv.0) {
                 return name_kv.0.to_owned();
             }
         }
