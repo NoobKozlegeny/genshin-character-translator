@@ -1,7 +1,7 @@
 #[derive(Clone)]
 pub struct Character {
-    hu_names: Vec<String>,
-    en_name: String
+    pub hu_names: Vec<String>,
+    pub en_name: String
 }
 
 impl Character {
