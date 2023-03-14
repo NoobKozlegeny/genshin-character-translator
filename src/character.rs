@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub struct Character {
     hu_names: Vec<String>,
     en_name: String
