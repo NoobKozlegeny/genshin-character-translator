@@ -82,7 +82,7 @@ impl EventHandler for Handler {
 fn select_name(input: String, genshin_names: Vec<Character>) -> String {
     for item in input.to_uppercase().split(" ") {
         for character in genshin_names.iter() {
-            for hu_name in character.hu_names {
+            for hu_name in character.clone().hu_names {
                 if item.to_string().starts_with(&hu_name) {
                     return hu_name.to_owned();
                 }   

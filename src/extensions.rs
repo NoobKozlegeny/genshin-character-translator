@@ -76,7 +76,7 @@ impl VecChararcterExt for Vec<Character> {
     fn get_en_name(&self, hu_name: String) -> Option<String> {
         for character in self {
             if character.hu_names.contains(&hu_name) {
-                return Some(character.en_name);
+                return Some(character.clone().en_name);
             }
         }
 
