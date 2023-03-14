@@ -1,6 +1,8 @@
 use std::{vec::Vec, collections::HashMap};
 
-pub trait VecExt {
+use super::character::Character;
+
+pub trait VecAccentExt {
     /// Replaces accents to english 'equivalents'
     /// # Example
     ///     Á -> A
@@ -8,7 +10,7 @@ pub trait VecExt {
     fn replace_accents(&self) -> Self;
 }
 
-impl VecExt for Vec<String> {    
+impl VecAccentExt for Vec<String> {    
     fn replace_accents(&self) -> Self {
         let mut result: Vec<String> = Vec::new();
         let accents: HashMap<&str, &str> = HashMap::from([
@@ -34,7 +36,7 @@ impl VecExt for Vec<String> {
     }
 }
 
-impl VecExt for Vec<char> {
+impl VecAccentExt for Vec<char> {
     fn replace_accents(&self) -> Self {
         let mut result: Vec<char> = Vec::new();
         let accents: HashMap<char, char> = HashMap::from([
@@ -52,5 +54,21 @@ impl VecExt for Vec<char> {
         }
 
         result
+    }
+}
+
+pub trait VecChararcterExt {
+    fn contains_character(&self, hu_name: String) -> bool;
+}
+
+impl VecChararcterExt for Vec<Character> {
+    fn contains_character(&self, hu_name: String) -> bool {
+        for character in self {
+            if character.hu_names.contains(&hu_name) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
