@@ -12,9 +12,12 @@ use std::io::prelude::*;
 use std::path::Path;
 use std::str;
 
-use self::extensions::VecExt;
+use self::extensions::*;
 
 #[path = "extensions.rs"] mod extensions;
+#[path = "character.rs"] mod character;
+
+use crate::event_handler::character::Character;
 
 pub struct Handler;
 
@@ -24,45 +27,45 @@ impl EventHandler for Handler {
 
         // authors are the users we will interact with
         let authors: Vec<&str> = Vec::from([ "NoobKözlegény", "Husania" ]);
-        let genshin_names: HashMap<String, String> = HashMap::from([
-            (String::from("ALBERT"), String::from("ALBEDO")), (String::from("ALIHAN"), String::from("ALHAITHAM")),
-            (String::from("BORI"), String::from("AMBER")), (String::from("ÁNGYIKA"), String::from("AYAKA")),
-            (String::from("AJTONY"), String::from("AYATO")), (String::from("ISTVÁN"), String::from("ITTO")),
-            (String::from("BARBI"), String::from("BARBARA")), (String::from("BERNADETT"), String::from("BEIDOU")),
-            (String::from("BÉNI"), String::from("BENNETT")), (String::from("KASSZANDRA"), String::from("CANDACE")),
-            (String::from("CSONGI"), String::from("CHONGYUN")), (String::from("CSANÁD"), String::from("CHILDE")),
-            (String::from("KOLLI"), String::from("COLLEI")), (String::from("SANYÓ"), String::from("CYNO")),
-            (String::from("DÉNES"), String::from("DAINSLEIF")), (String::from("DANI"), String::from("DILUC")),
-            (String::from("DIA"), String::from("DIONA")), (String::from("DÓRI"), String::from("DORI")),
-            (String::from("LAURA"), String::from("EULA")), (String::from("FRUZSI"), String::from("FRUZSINA")),
-            (String::from("FLÓRA"), String::from("FISCHL")), (String::from("GYÖNGYI"), String::from("GANYU")),
-            (String::from("GERGŐ"), String::from("GOROU")), (String::from("HETÉNY"), String::from("HEIZHOU")),
-            (String::from("TEA"), String::from("HUTAO")), (String::from("JANKA"), String::from("JEAN")),
-            (String::from("KÁZMÉR"), String::from("KAZUHA")), (String::from("KÁROLY"), String::from("KAEYA")),
-            (String::from("KORINA"), String::from("KOKOMI")), (String::from("SÜTI"), String::from("KUKI")),
-            (String::from("KEKA"), String::from("KEQING")), (String::from("KINGA"), String::from("KEQING")),
-            (String::from("KLÁRI"), String::from("KLEE")), (String::from("LEJLA"), String::from("LAYLA")),
-            (String::from("LIZA"), String::from("LISA")), (String::from("MÓNI"), String::from("MONA")),
-            (String::from("NATI"), String::from("NAHIDA")), (String::from("NIKI"), String::from("NINGUANQ")),
-            (String::from("NÍLA"), String::from("NILOU")), (String::from("NOELLA"), String::from("NOELLE")),
-            (String::from("GIZI"), String::from("QIGI")), (String::from("ÉVI"), String::from("RAIDEN")),
-            (String::from("RADIÁTOR"), String::from("RAZOR")), (String::from("ROZI"), String::from("ROSARIA")),
-            (String::from("SÁRA"), String::from("SARA")), (String::from("SZANDI"), String::from("SAYU")),
-            (String::from("SZENDE"), String::from("SHENHE")), (String::from("CUKOR"), String::from("SUCROSE")),
-            (String::from("TOMI"), String::from("THOMA")), (String::from("TIHAMÉR"), String::from("TIGHNARI")),
-            (String::from("UTAZÓ"), String::from("TRAVELER")), (String::from("BARNI"), String::from("VENTI")),
-            (String::from("SAMU"), String::from("XIAO")), (String::from("SZINDBÁD"), String::from("XINGQIU")),
-            (String::from("SZINTIA"), String::from("XINYAN")), (String::from("CSINGILING"), String::from("XIANGLINQ")),
-            (String::from("JANA"), String::from("YANFEI")), (String::from("MOLLI"), String::from("YAEMIKO")),
-            (String::from("JOLÁN"), String::from("YELAN")), (String::from("JOLI"), String::from("YOIMIJA")),
-            (String::from("JULI"), String::from("YUN JIN")), (String::from("SALAMON"), String::from("SCARA")),
-            (String::from("ZOLI"), String::from("ZHONGLI"))
+
+        let genshin_names: Vec<Character> = Vec::from([
+            Character::new(&["ALBERT"], "ALBEDO"), Character::new(&["ALIHAN"], "ALHAITHAM"),
+            Character::new(&["BORI"], "AMBER"), Character::new(&["ÁNGYIKA"], "AYAKA"),
+            Character::new(&["AJTONY"], "AYATO"), Character::new(&["ISTVÁN"], "ITTO"),
+            Character::new(&["BARBI"], "BARBARA"), Character::new(&["BERNADETT"], "BEIDOU"),
+            Character::new(&["BÉNI"], "BENNETT"), Character::new(&["KASSZANDRA"], "CANDACE"),
+            Character::new(&["CSONGI"], "CHONGYUN"), Character::new(&["CSANÁD"], "CHILDE"),
+            Character::new(&["KOLLI"], "COLLEI"), Character::new(&["SANYÓ"], "CYNO"),
+            Character::new(&["DÉNES"], "DAINSLEIF"), Character::new(&["DANI"], "DILUC"),
+            Character::new(&["DIA"], "DIONA"), Character::new(&["DÓRI"], "DORI"),
+            Character::new(&["LAURA"], "EULA"), Character::new(&["FRUZSI", "FRUZSINA"], "FARUZAN"),
+            Character::new(&["FLÓRA"], "FISCHL"), Character::new(&["GYÖNGYI"], "GANYU"),
+            Character::new(&["GERGŐ"], "GOROU"), Character::new(&["HETÉNY"], "HEIZHOU"),
+            Character::new(&["TEA"], "HUTAO"), Character::new(&["JANKA"], "JEAN"),
+            Character::new(&["KÁZMÉR"], "KAZUHA"), Character::new(&["KÁROLY"], "KAEYA"),
+            Character::new(&["KORINA"], "KOKOMI"), Character::new(&["SÜTI"], "KUKI"),
+            Character::new(&["KEKA", "KINGA"], "KEQING"), Character::new(&["KLÁRI"], "KLEE"),
+            Character::new(&["LIZA"], "LISA"), Character::new(&["MÓNI", "MÓNIKA"], "MONA"),
+            Character::new(&["NATI"], "NAHIDA"), Character::new(&["NIKI"], "NINGUANQ"),
+            Character::new(&["NÍLA"], "NILOU"), Character::new(&["NOELLA"], "NOELLE"),
+            Character::new(&["GIZI"], "QIGI"), Character::new(&["ÉVI"], "RAIDEN"),
+            Character::new(&["RADIÁTOR"], "RAZOR"), Character::new(&["ROZI"], "ROSARIA"),
+            Character::new(&["SÁRA"], "SARA"), Character::new(&["SZANDI"], "SAYU"),
+            Character::new(&["SZENDE"], "SHENHE"), Character::new(&["CUKOR"], "SUCROSE"),
+            Character::new(&["TOMI"], "THOMA"), Character::new(&["TIHAMÉR"], "TIGHNARI"),
+            Character::new(&["UTAZÓ"], "TRAVELER"), Character::new(&["BARNI"], "VENTI"),
+            Character::new(&["SAMU"], "XIAO"), Character::new(&["SZINDBÁD"], "XINGQIU"),
+            Character::new(&["SZINTIA"], "XINYAN"), Character::new(&["CSINGILING"], "XIANGLINQ"),
+            Character::new(&["JANA"], "YANFEI"), Character::new(&["MOLLI"], "YAEMIKO"),
+            Character::new(&["JOLÁN"], "YELAN"), Character::new(&["JOLI"], "YOIMIJA"),
+            Character::new(&["JULI"], "YUN JIN"), Character::new(&["SALAMON"], "SCARA"),
+            Character::new(&["ZOLI"], "ZHONGLI")
         ]);
 
         let hu_name: String = select_name(msg.content.clone(), genshin_names.clone());
 
         if authors.contains(&&msg.author.name[..]) 
-        && genshin_names.contains_key(&hu_name) {
+        && genshin_names.contains_character(hu_name.clone()) {
             react_to_message(ctx, msg, genshin_names, hu_name).await;            
         }
     }
@@ -76,11 +79,13 @@ impl EventHandler for Handler {
 /// # Parameters
 ///     input: the string to search in
 ///     genshin_names: HashMap with the corresponding names
-fn select_name(input: String, genshin_names: HashMap<String, String>) -> String {
+fn select_name(input: String, genshin_names: Vec<Character>) -> String {
     for item in input.to_uppercase().split(" ") {
-        for name_kv in genshin_names.iter() {
-            if item.to_string().starts_with(name_kv.0) {
-                return name_kv.0.to_owned();
+        for character in genshin_names.iter() {
+            for hu_name in character.hu_names {
+                if item.to_string().starts_with(&hu_name) {
+                    return hu_name.to_owned();
+                }   
             }
         }
     }
@@ -112,9 +117,9 @@ fn read_names(path: &Path) -> HashMap<String, String> {
 ///     ctx: Context file of the message
 ///     msg: Message object
 ///     genshin_names: A HashMap<&str, &str> with genshin names (<name to react, word to spell>) 
-async fn react_to_message(ctx: Context, msg: Message, genshin_names: HashMap<String, String>, hu_name: String) {
+async fn react_to_message(ctx: Context, msg: Message, genshin_names: Vec<Character>, hu_name: String) {
     // Getting the correct english equivalent name
-    let en_name: String = get_correct_value(hu_name, genshin_names.clone()).unwrap();
+    let en_name: String = genshin_names.get_en_name(hu_name).unwrap();
 
     // Defining the letters with their corresponding emojis
     let emoji_utf_primary: HashMap<&str, &str> = HashMap::from([
