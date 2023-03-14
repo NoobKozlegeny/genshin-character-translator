@@ -59,6 +59,7 @@ impl VecAccentExt for Vec<char> {
 
 pub trait VecChararcterExt {
     fn contains_character(&self, hu_name: String) -> bool;
+    fn get_en_name(&self, hu_name: String) -> Option<String>;
 }
 
 impl VecChararcterExt for Vec<Character> {
@@ -70,5 +71,15 @@ impl VecChararcterExt for Vec<Character> {
         }
 
         return false;
+    }
+
+    fn get_en_name(&self, hu_name: String) -> Option<String> {
+        for character in self {
+            if character.hu_names.contains(&hu_name) {
+                return Some(character.en_name);
+            }
+        }
+
+        return None;
     }
 }
