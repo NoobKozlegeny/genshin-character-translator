@@ -8,9 +8,9 @@ publish = false
 doctest = false
 
 [dependencies]
-shuttle-service = { version = "0.10.0", features = ["bot-serenity"] }
+shuttle-service = { version = "0.11.0", features = ["bot-serenity"] }
 anyhow = "1.0.68"
 serenity = { version = "0.11.5", default-features = false, features = ["client", "gateway", "rustls_backend", "model"] }
 # tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }
-shuttle-secrets = "0.10.0"
+shuttle-secrets = "0.11.0"
 tracing = "0.1.37"
