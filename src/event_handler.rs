@@ -93,25 +93,6 @@ fn select_name(input: String, genshin_names: Vec<Character>) -> String {
     return "".to_owned();
 }
 
-/// Reads the genshin names into a HashMap<String, String>
-/// # Parameters
-///     path: a &Path struct pointing to the file location
-fn read_names(path: &Path) -> HashMap<String, String> {
-    let mut result: HashMap<String, String> = HashMap::new();
-    let file = File::open(path).expect("File not found!");
-    let reader = BufReader::new(file);
-
-    for line in reader.lines() {
-        let line_ok = line.unwrap().to_string().to_uppercase(); // Zhongli - Zoli
-        let names: Vec<&str> = line_ok.split("-").collect();
-
-        // Bc we 'translate' the hungarian to the english one, hence the idx switchup
-        result.insert(names[1].trim().to_string().clone(), names[0].trim().to_string().clone()); 
-    }
-
-    return result;
-}
-
 /// Spells out the given genshin character's name/nickname with emojis.
 /// # Parameters
 ///     ctx: Context file of the message
